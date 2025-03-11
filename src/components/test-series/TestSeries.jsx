@@ -1180,10 +1180,6 @@ export const TestSeries = () => {
         window.open("https://wa.me/+918440930809", "_blank");
     }
 
-    const isMobile = useMediaQuery("(min-width:600px)");
-
-console.log('isMobile', isMobile)
-
     return (
         <div className="test-series" style={{ textAlign: 'left' }}>
             <div className="row" style={{ margin: 0 }}>
