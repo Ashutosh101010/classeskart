@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Muli:wght@400;700&display=swap');
+
+body {
+  font-family: 'Muli', sans-serif;
+  overflow-x: hidden;
+}
+
+@media screen and (max-width: 400px) {
+  #founder {
+    padding: 20px;
+    width: 100%;
+  }
+  #courses,
+  #testimonials,
+  #videos,
+  #contact,
+  #footer {
+    width: 100%;
+  }
+
+  #vissionmission {
+    width: 100%;
+    padding: 20px !important;
+  }
+  #vissionmission-paragraph { 
+    text-align: justify !important;
+  }
+  #menu{
+    padding: 0;
+  }
+  #director{
+    padding: 20px;
+  }
+  #freekipathshala{
+    width: 100%;
+    height: 30%;
+  }
+  .call-now-btn{
+    text-align: center !important;
+    margin-right: 0 !important;
+  }
+  .logo-image{
+    width: 150px !important;
+    padding-left: 25px;
+  }
+  .page-scroll{
+   /* float: left; */
+   height: 50px;
+   padding: 15px 15px;
+   line-height: 20px;
+   font-size: 18px;
+  }
+  #mobile-view{
+    bottom: 15px !important;
+    align-items: flex-end;
+    left: 15px !important;
+    /* right: 0; */
+    display: block;
+    cursor: pointer;
+  }
+}
+.top-menubar{
+  /* display: flex; */
+  align-items: center;
+}
