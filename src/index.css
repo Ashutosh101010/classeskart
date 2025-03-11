@@ -942,6 +942,9 @@ label {
 .mobile-container{
   display: none !important;
 }
+.desktop-container{
+  display: flex !important;
+}
 .course-img-video{
   width: 100% !important;
 }
@@ -1005,7 +1008,7 @@ label {
     width: 70% !important;
   }
   .mobile-container{
-    display: none !important;
+    display: flex !important;
   }
   .mobile-fill-textfield{
     padding-bottom: 16px !important;
