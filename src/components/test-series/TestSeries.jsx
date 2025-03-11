@@ -1412,7 +1412,7 @@ export const TestSeries = () => {
                                                                     let finalPrices = object?.finalPrice === 0 ? Number(price) - (Number(price / 100) * Number(item?.discount)) : object?.finalPrice;
                                                                     let discount = 100 - ((finalPrices / price) * 100)
                                                                     const fullDescription = item?.description?.description || "";
-                                                                    return <Grid item xs={12} sm={12} md={12} lg={12} sx={{ padding: "5px", textAlign: "center", }}>
+                                                                    return <Grid item xs={12} sm={12} md={12} lg={12} sx={{ padding: "5px", textAlign: "center", }} key={i}>
                                                                         <Box sx={{ borderRadius: "10px", position: "relative", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
                                                                             <img
                                                                                 // src={"img/p1 surbhi test series (2).jpg"}
@@ -1516,7 +1516,7 @@ export const TestSeries = () => {
                                                                     let discount = 100 - ((finalPrices / price) * 100)
                                                                     const fullDescription = item?.description?.description || "";
 
-                                                                    return <Grid item xs={11} sm={11} md={11} lg={11} sx={{ padding: "10px", textAlign: "center", }}>
+                                                                    return <Grid item xs={11} sm={11} md={11} lg={11} sx={{ padding: "10px", textAlign: "center", }} key={i}>
                                                                         <Box sx={{ borderRadius: "10px", position: "relative", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
                                                                             <img
                                                                                 // src={"img/p1 surbhi test series (2).jpg"}
