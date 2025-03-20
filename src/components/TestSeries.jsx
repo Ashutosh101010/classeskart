@@ -8,7 +8,7 @@ import 'react-multi-carousel/lib/styles.css';
 // import { useNavigate, UNSAFE_NavigationContext } from "react-router-dom";
 import { Base64 } from 'js-base64';
 import PropTypes from 'prop-types';
-// import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import EnrolledNowForm from './EnrollNow';
 
 
@@ -1509,6 +1509,52 @@ export const TestSeries = () => {
                 {/* <DialogActions>
                     <Button onClick={() => setEnrolledNowModal(false)}>Close</Button>
                 </DialogActions> */}
+            </Dialog>
+            <Dialog open={thankyouModal} onClose={() => setThankyouModal(false)}>
+                <Typography sx={{ mt: 3, mb: 1, py: 1 }}>
+                    <Card sx={{ width: "100%", boxShadow: "none", textAlign: "center" }}>
+                        <Grid2 container sx={{ margin: "20px 0", justifyContent: "center" }}>
+                            <Grid2 item size={{xs:12, sm:12, md:12, lg:12}}>
+                                <Typography variant='h6' sx={{ mb: 2 }}>
+                                    {/* <img src="img/Thank you image size 4ratio3.jpg" alt="" style={{ margin: "5px", height: "250px" }} /> */}
+                                    Thank you for your purchase!
+                                    <Typography variant='h5' sx={{ mb: 2, mt: 1 }}>
+                                        {filterCourse[0]?.title} Test Series
+                                    </Typography>
+                                </Typography>
+                                <Typography sx={{ fontWeight: "bold", fontSize: "14px", mb: 1 }}>
+                                    To access test papers and upload answer sheets, please share your payment slip on WhatsApp and download our app. 📲
+                                    {/* <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mt: 2 }}>
+                                                        <img src="img/playstore.svg" alt="" style={{ margin: "5px" }} />
+                                                        <img src="img/applestore.svg" alt="" style={{ margin: "5px" }} />
+                                                        <img src="img/windowstore.svg" alt="" style={{ margin: "5px" }} />
+                                                    </Box> */}
+
+                                </Typography>
+                                <Typography sx={{ fontWeight: "bold", fontSize: "14px" }}>
+                                    <WhatsAppIcon color='success' sx={{ fontSize: "55px", cursor: "pointer" }} onClick={handleWhatsappClick} />
+                                </Typography>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    sx={{ width: "250px", padding: "10px", margin: "15px", fontSize: "12px" }}
+                                    onClick={() => {
+                                        setActiveStep(0);
+                                        setAddedCartPlans([]);
+                                        setAddtoCartIds([]);
+                                        setPurchaseArray([]);
+                                        setSelectedIds([]);
+                                        setSelectSubjectWise([]);
+                                        setChecked(false);
+                                        setThankyouModal(false)
+                                    }}
+                                >
+                                    ENROL FOR ANOTHER TEST SERIES
+                                </Button>
+                            </Grid2>
+                        </Grid2>
+                    </Card>
+                </Typography>
             </Dialog>
 
             <Dialog open={courseExpandedDescriptions} onClose={() => setCourseExpandedDescriptions(false)}>
