@@ -9,6 +9,7 @@ import ProceedToCheckoutForm from "./ProceedToCheckout";
 import CloseIcon from '@mui/icons-material/Close';
 import playStore from '../assets/playStore1.svg';
 import windowsStore from '../assets/windowsStore.svg';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
 const MultipleCourseCart = () => {
 
@@ -101,6 +102,11 @@ const MultipleCourseCart = () => {
 
     const handlePlayStore = () => {
         const url = 'https://play.google.com/store/apps/details?id=com.classiolabs.classeskart'
+        window.open(url, '_blank', 'noreferrer');
+    }
+
+    const handleWhatsApp = () =>{
+        const url = 'https://api.whatsapp.com/send/?phone=8440930809&text=Hi+Team%2C+is+there+any+related+service+available+%3F&type=phone_number&app_absent=0';
         window.open(url, '_blank', 'noreferrer');
     }
 
@@ -225,7 +231,7 @@ const MultipleCourseCart = () => {
                     "& .MuiDialog-container": {
                         "& .MuiPaper-root": {
                             width: "100%",
-                            maxWidth: "500px",
+                            maxWidth: "600px",
                         },
                     },
                 }}
@@ -233,43 +239,66 @@ const MultipleCourseCart = () => {
                 <Stack direction={'row'} spacing={2} display={'flex'} justifyContent={'flex-end'} alignItems={'center'} p={1}>
                     <CloseIcon sx={{ cursor: "pointer" }} onClick={handleCloseThankYouDialog} />
                 </Stack>
-                <Stack direction={'column'} spacing={2} p={4}>
-                    <Stack direction={'row'} spacing={2}>
-                        <Typography
-                            fontSize={'20px'}
-                            fontWeight={'500'}
-                            textAlign={'center'}
-                        >
-                            Thank You! We will get back to you soon.
-                        </Typography>
+                <Box sx={{ padding: "30px" }}>
+
+                    <Typography
+                        fontSize={'15px'}
+                        fontWeight={'500'}
+                        sx={{ mb: 2 }}
+                    >
+                        ✅ Your enrollment in the test series is successful!
+                    </Typography>
+                    <Typography
+                        fontSize={'15px'}
+                        fontWeight={'500'}
+                        sx={{ mb: 2 }}
+                    >
+                        📲 To access the test series, please install our Android or Windows app.
+                    </Typography>
+                    <Typography
+                        fontSize={'15px'}
+                        fontWeight={'500'}
+                        sx={{ mb: 2 }}
+                    >
+                        👇 Click on the icon below to install the app.
+                    </Typography>
+                    <Typography
+                        fontSize={'15px'}
+                        fontWeight={'500'}
+                        sx={{ mb: 4 }}
+                    >
+                        💬 Need any help? Reach out to us on WhatsApp – we're here for you!
+                    </Typography>
+
+
+                    <Stack direction={'row'} spacing={2} pb={4} justifyContent={'center'}>
+                        <img
+                            onClick={handlePlayStore}
+                            alt=''
+                            src={playStore}
+                            style={{
+                                position: 'relative',
+                                // right: isMobile ? '0.5rem' : '1rem',
+                                width: '100%',
+                                maxWidth: '150px',
+                                cursor: "pointer"
+                            }}
+                        />
+                        <img
+                            onClick={handleWindowStore}
+                            style={{
+                                position: 'relative',
+                                // right: isMobile ? '0.5rem' : '1rem',
+                                width: '100%',
+                                maxWidth: '150px',
+                                cursor: "pointer"
+                            }}
+                            alt=''
+                            src={windowsStore}
+                        />
+                        <WhatsAppIcon sx={{ fontSize: "43px", color: 'green' }} onClick={handleWhatsApp} />
                     </Stack>
-                </Stack>
-                <Stack direction={'row'} spacing={2} pb={4} justifyContent={'center'}>
-                    <img
-                        onClick={handlePlayStore}
-                        alt=''
-                        src={playStore}
-                        style={{
-                            position: 'relative',
-                            // right: isMobile ? '0.5rem' : '1rem',
-                            width: '100%',
-                            maxWidth: '100px',
-                            cursor: "pointer"
-                        }}
-                    />
-                    <img
-                        onClick={handleWindowStore}
-                        style={{
-                            position: 'relative',
-                            // right: isMobile ? '0.5rem' : '1rem',
-                            width: '100%',
-                            maxWidth: '100px',
-                            cursor: "pointer"
-                        }}
-                        alt=''
-                        src={windowsStore}
-                    />
-                </Stack>
+                </Box>
             </Dialog>
             <Dialog
                 open={proceedToCheckoutModal}

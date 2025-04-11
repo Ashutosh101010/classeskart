@@ -76,7 +76,7 @@ export const ExploreCourseSection = ({ endpointsUrl, firstFilter, secondFilter, 
             Array.isArray(item.tags) &&
             item.tags.some(tagObj => tagObj.tag === "Subject Wise")
         );
-        
+
         const allCourse = [...groupWise, ...subjectWise];
         setCourses(allCourse)
         setFilterCourseGroupWise(groupWise);
@@ -288,10 +288,10 @@ export const ExploreCourseSection = ({ endpointsUrl, firstFilter, secondFilter, 
                         )
                     }
 
-                    <Grid2 container gap={1}>
+                    <Grid2 container gap={1} sx={{ p: isMobile ? 1 : 0 }}>
                         {
                             filterCourseGroupWise && filterCourseGroupWise.map((item, i) => {
-                                return <Grid2 item size={{ xs: 12, sm: 2.4, md: 2.4, lg: 2.4 }} sx={{ textAlign: "center" }}>
+                                return <Grid2 item size={{ xs: 12, sm: 2.4, md: 2.4, lg: 2.4 }} sx={{ textAlign: "center", mb: 2, padding: isMobile ? "10px" : "" }}>
                                     <Box sx={{
                                         borderRadius: "10px", position: "relative", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
                                         //  height: "300px"
@@ -387,13 +387,13 @@ export const ExploreCourseSection = ({ endpointsUrl, firstFilter, secondFilter, 
                     </Grid2>
                     {
                         filterCourseSubjectWise?.length > 0 && (
-                            <Typography variant="h5" sx={{ fontWeight: "bold", color: "#000", mt: 3, mb: 2 }}>Subject Wise</Typography>
+                            <Typography variant="h5" sx={{ fontWeight: "bold", color: "#000", mt: 6, mb: 2 }}>Subject Wise</Typography>
                         )
                     }
-                    <Grid2 container>
+                    <Grid2 container sx={{ p: isMobile ? 1 : 0 }}>
                         {
                             filterCourseSubjectWise && filterCourseSubjectWise.map((item, i) => {
-                                return <Grid2 item size={{ xs: 12, sm: 2.4, md: 2.4, lg: 2.4 }} sx={{ textAlign: "center" }}>
+                                return <Grid2 item size={{ xs: 12, sm: 2.4, md: 2.4, lg: 2.4 }} sx={{ textAlign: "center", mb: 2, padding: isMobile ? "10px" : "" }}>
                                     <Box sx={{
                                         borderRadius: "10px", position: "relative", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
                                         //  height: "300px"

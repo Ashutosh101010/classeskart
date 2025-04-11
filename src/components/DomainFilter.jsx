@@ -5,7 +5,7 @@ import Network from "./Network";
 import { useNavigate } from "react-router-dom";
 import instId from "./InstituteId";
 
-export default function DomainFilter({setCourses}) {
+export default function DomainFilter() {
 
     const navigate = useNavigate();
     const [levelOne, setLevelOne] = useState([]);
@@ -19,84 +19,6 @@ export default function DomainFilter({setCourses}) {
     useEffect(() => {
         getDomainList();
     }, [])
-
-      useEffect(() => {
-            if (levelOne?.length > 0) {
-                getCourseList();
-            }
-    
-        }, [levelOne])
-
-          useEffect(() => {
-                if (!course || course.length === 0) return;
-        
-                let filtered = [...course];
-
-                const groupWise = filtered.filter(item =>
-                    Array.isArray(item.tags) &&
-                    item.tags.some(tagObj => tagObj.tag === "Group Wise")
-                );
-        
-                const subjectWise = filtered.filter(item =>
-                    Array.isArray(item.tags) &&
-                    item.tags.some(tagObj => tagObj.tag === "Subject Wise")
-                );
-                
-                const allCourse = [...groupWise, ...subjectWise];
-                setCourses(allCourse)
-            }, [course, selectedLevelThree]);
-
-      const findDomainById = (nodes, id) => {
-            for (const node of nodes) {
-                if (node.id === id) return node;
-                if (node.child?.length) {
-                    const found = findDomainById(node.child, id);
-                    if (found) return found;
-                }
-            }
-            return null;
-        };
-    
-        const getAllLeafIds = (node) => {
-            if (!node.child || node.child.length === 0) {
-                return [node.id];
-            }
-            return node.child.flatMap(child => getAllLeafIds(child));
-        };
-    
-        const filterCoursesByThirdFilter = (courseList, domainList, thirdFilter) => {
-            if (!thirdFilter || !Array.isArray(domainList) || domainList.length === 0) return [];
-    
-            const matchedDomain = findDomainById(domainList, thirdFilter);
-    
-            if (!matchedDomain) return [];
-    
-            const leafIds = getAllLeafIds(matchedDomain);
-    
-            const filteredCourses = courseList.filter(course =>
-                Array.isArray(course.domain) &&
-                course.domain.some(domainItem => leafIds.includes(domainItem.id))
-            );
-            return filteredCourses;
-        };
-    
-    
-        const getCourseList = async () => {
-            try {
-                const response = await Network.fetchCourses(instId);
-    
-                if (response?.errorCode === 0) {
-                    const caCourses = response?.courses?.filter(course =>
-                        course.active === true
-                    );
-                    const filteredByThird = filterCoursesByThirdFilter(caCourses, levelOne, selectedLevelThree);
-                    setCourse(selectedLevelThree ? filteredByThird : caCourses);
-                };
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
 
     const getDomainList = async () => {
         try {
