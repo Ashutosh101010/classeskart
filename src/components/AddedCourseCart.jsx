@@ -105,8 +105,8 @@ const MultipleCourseCart = () => {
         window.open(url, '_blank', 'noreferrer');
     }
 
-    const handleWhatsApp = () =>{
-        const url = 'https://api.whatsapp.com/send/?phone=8440930809&text=Hi+Team%2C+is+there+any+related+service+available+%3F&type=phone_number&app_absent=0';
+    const handleWhatsApp = () => {
+        const url = 'https://api.whatsapp.com/send/?phone=9049730883&text=Hi+Team%2C+is+there+any+related+service+available+%3F&type=phone_number&app_absent=0';
         window.open(url, '_blank', 'noreferrer');
     }
 
@@ -129,7 +129,7 @@ const MultipleCourseCart = () => {
                                                     <img src={item?.logo ? endpoints + item?.logo : 'img/folder-2.png'} style={{ width: '70%', padding: '5px', maxHeight: '200px', minHeight: "150px" }} alt="Preview" className='mobile-view-image' />
 
                                                 </Box>
-                                                <Box sx={{
+                                                {/* <Box sx={{
                                                     background: "rgb(123 127 129 / 7%)",
                                                     margin: "15px", borderRadius: "8px", display: "flex", justifyContent: "center"
                                                 }}>
@@ -140,7 +140,7 @@ const MultipleCourseCart = () => {
 
                                                         )
                                                     }
-                                                </Box>
+                                                </Box> */}
                                             </Grid2>
                                             <Grid2 item size={{ xs: 12, sm: 8, md: 8, lg: 8 }} sx={{ padding: "10px" }}>
                                                 <Typography variant='h5' fontWeight={"bold"} sx={{ color: "#000" }}>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Dialog, DialogActions, DialogContent, FormControl, Grid2, InputLabel, MenuItem, Select, Tooltip, Typography, useMediaQuery } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, FormControl, Grid2, InputLabel, keyframes, MenuItem, Select, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import CustomCarousel from "./CustomCarosoul";
 import instId from "./InstituteId";
 import Network from "./Network";
@@ -9,6 +9,12 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useNavigate } from "react-router-dom";
 
 export const ExploreCourseSection = ({ endpointsUrl, firstFilter, secondFilter, thirdFilter, setCourses }) => {
+
+    const zoomInOut = keyframes`
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    `;
 
     let cartData = localStorage.getItem('cartCourses');
     const navigate = useNavigate();
@@ -86,29 +92,50 @@ export const ExploreCourseSection = ({ endpointsUrl, firstFilter, secondFilter, 
 
     const getDomainList = async () => {
         try {
-
             const domainResponse = await Network.fetchDomain();
             if (domainResponse?.errorCode === 0) {
                 const data = domainResponse?.domains;
-                const levelOneData = data;
-                const levelTwoData = data[0]?.child || [];
-                const levelThreeData = levelTwoData[0]?.child || [];
-                const levelFourData = levelThreeData[0]?.child || [];
-                setDomainList(data)
-                setLevelOne(levelThreeData[0]?.child || []);
-                if (levelFourData?.length > 0) {
-                    setSelectedLevelOne(levelFourData[0])
-                    const levelTwoData = levelFourData[0].child || [];
-                    setLevelTwo(levelTwoData);
-                    if (levelTwoData.length > 0) {
-                        const firstLevelTwo = levelTwoData[0];
-                        setSelectedLevelTwo(firstLevelTwo);
+                setDomainList(data);
+
+                const findNodeById = (nodes) => {
+                    for (const node of nodes) {
+                        if (node.id === thirdFilter) {
+                            return node;
+                        }
+                        if (node.child?.length > 0) {
+                            const found = findNodeById(node.child);
+                            if (found) return found;
+                        }
                     }
+                    return null;
+                };
+
+                const matchedLevel = findNodeById(data);
+
+                if (matchedLevel?.child?.length > 0) {
+                    const childArray = matchedLevel.child;
+                    setLevelOne(childArray);
+
+                    let foundItem = childArray.find(item => item.id === thirdFilter);
+
+                    if (!foundItem && childArray.length > 0) {
+                        foundItem = childArray[0];
+                    }
+
+                    if (foundItem) {
+                        setSelectedLevelOne(foundItem);
+                        const levelTwoData = foundItem.child || [];
+                        setLevelTwo(levelTwoData);
+                        if (levelTwoData.length > 0) {
+                            setSelectedLevelTwo(levelTwoData[0]);
+                        }
+                    }
+                } else {
+                    setLevelOne([]);
                 }
-                // setLevelTwo(levelFourData[0]?.child || []);
             }
         } catch (error) {
-            console.error("Error fetching employees:", error);
+            console.error("Error fetching domain data:", error);
         }
     };
 
@@ -281,7 +308,11 @@ export const ExploreCourseSection = ({ endpointsUrl, firstFilter, secondFilter, 
                             }
                         </Select>
                     </FormControl>
-                    {cartCourses?.length > 0 && (<Button disabled={cartCourses?.length > 0 ? false : true} onClick={handleShowCart} sx={{ fontWeight: "bold", color: "#000", fontSize: "14px", border: "1px solid #80808038", textTransform: "initial", background: '#1356C5', color: '#fff', padding: "12px", width: !isMobile ? "100%" : "fit-content" }} className='button-hover'><ArrowForwardIcon />&nbsp; Go to Cart Details</Button>)}
+                    {cartCourses?.length > 0 && (
+                        <Button disabled={cartCourses?.length > 0 ? false : true} onClick={handleShowCart} sx={{
+                            position: "sticky", top: 0, zIndex: "9999", fontWeight: "bold", color: "#000", fontSize: "14px", border: "1px solid #80808038", textTransform: "initial", background: '#1356C5', color: '#fff', padding: "12px", width: !isMobile ? "100%" : "fit-content", float: "right", animation: `${zoomInOut} 1.5s infinite ease-in-out`,
+                            transition: "transform 0.3s, box-shadow 0.3s",
+                        }} className='button-hover'><ArrowForwardIcon />&nbsp; Go to Cart Details</Button>)}
                     {
                         filterCourseGroupWise?.length > 0 && (
                             <Typography variant="h5" sx={{ fontWeight: "bold", color: "#000", mt: 2, mb: 2 }}>Group Wise</Typography>
@@ -307,7 +338,7 @@ export const ExploreCourseSection = ({ endpointsUrl, firstFilter, secondFilter, 
                                                     {item?.title?.split(" ").length > 7 && "..."}
                                                 </Typography>
                                             </Tooltip>
-                                            <Typography variant='p' className='desktop-view-discrip' sx={{ fontSize: "12px" }}>
+                                            <Typography variant='p' className='desktop-view-discrip' sx={{ fontSize: "12px", marginBottom: "20px", }}>
                                                 {setCourseExpandedDescriptions === false ? truncateDescription(item?.description) : truncateDescription(item?.description)}
                                                 {item?.description.length > 100 && (
                                                     <span style={{ color: 'blue', cursor: 'pointer', marginLeft: '5px', textDecoration: 'underline' }} onClick={() => toggleExpandDescription(item?.description)}>
@@ -316,6 +347,30 @@ export const ExploreCourseSection = ({ endpointsUrl, firstFilter, secondFilter, 
                                                 )}
                                             </Typography>
                                             <Box sx={{ marginBottom: "20px", mt: 1 }}>
+                                                {
+                                                    (() => {
+                                                        const cartItem = cartCourses.find(c => c.id === item.id);
+                                                        if (cartItem && cartItem.finalPrice !== undefined && cartItem.finalPrice !== null) {
+                                                            return (
+                                                                <Typography
+                                                                    component="span"
+                                                                    sx={{
+                                                                        fontWeight: '600',
+                                                                        background: 'rgba(255, 215, 0, 0.6)',
+                                                                        padding: '2px 5px',
+                                                                        borderRadius: '4px'
+                                                                    }}
+                                                                >
+                                                                    ₹{parseFloat(cartItem.finalPrice).toFixed(2)}
+                                                                </Typography>
+                                                            );
+                                                        }
+                                                        return null; // display nothing
+                                                    })()
+                                                }
+                                            </Box>
+
+                                            {/* <Box sx={{ marginBottom: "20px", mt: 1 }}>
                                                 {item.paid ? (
                                                     item.discount > 0 && item.discount !== null ? (
                                                         <>
@@ -361,7 +416,7 @@ export const ExploreCourseSection = ({ endpointsUrl, firstFilter, secondFilter, 
                                                         Free
                                                     </Typography>
                                                 )}
-                                            </Box>
+                                            </Box> */}
                                         </Box>
                                         <Box sx={{ position: "absolute", bottom: "0", left: 0, right: 0, padding: "0px 10px 0 10px" }}>
                                             <Grid2 container spacing={1}>
@@ -409,7 +464,7 @@ export const ExploreCourseSection = ({ endpointsUrl, firstFilter, secondFilter, 
                                                     {item?.title?.split(" ").length > 7 && "..."}
                                                 </Typography>
                                             </Tooltip>
-                                            <Typography variant='p' className='desktop-view-discrip' sx={{ fontSize: "12px" }}>
+                                            <Typography variant='p' className='desktop-view-discrip' sx={{ fontSize: "12px", marginBottom: "20px", }}>
                                                 {setCourseExpandedDescriptions === false ? truncateDescription(item?.description) : truncateDescription(item?.description)}
                                                 {item?.description.length > 100 && (
                                                     <span style={{ color: 'blue', cursor: 'pointer', marginLeft: '5px', textDecoration: 'underline' }} onClick={() => toggleExpandDescription(item?.description)}>
@@ -418,6 +473,30 @@ export const ExploreCourseSection = ({ endpointsUrl, firstFilter, secondFilter, 
                                                 )}
                                             </Typography>
                                             <Box sx={{ marginBottom: "20px", mt: 1 }}>
+                                                {
+                                                    (() => {
+                                                        const cartItem = cartCourses.find(c => c.id === item.id);
+                                                        if (cartItem && cartItem.finalPrice !== undefined && cartItem.finalPrice !== null) {
+                                                            return (
+                                                                <Typography
+                                                                    component="span"
+                                                                    sx={{
+                                                                        fontWeight: '600',
+                                                                        background: 'rgba(255, 215, 0, 0.6)',
+                                                                        padding: '2px 5px',
+                                                                        borderRadius: '4px'
+                                                                    }}
+                                                                >
+                                                                    ₹{parseFloat(cartItem.finalPrice).toFixed(2)}
+                                                                </Typography>
+                                                            );
+                                                        }
+                                                        return null; // display nothing
+                                                    })()
+                                                }
+                                            </Box>
+
+                                            {/* <Box sx={{ marginBottom: "20px", mt: 1 }}>
                                                 {item.paid ? (
                                                     item.discount > 0 && item.discount !== null ? (
                                                         <>
@@ -463,7 +542,7 @@ export const ExploreCourseSection = ({ endpointsUrl, firstFilter, secondFilter, 
                                                         Free
                                                     </Typography>
                                                 )}
-                                            </Box>
+                                            </Box> */}
                                         </Box>
                                         <Box sx={{ position: "absolute", bottom: "0", left: 0, right: 0, padding: "0px 10px 0 10px" }}>
                                             <Grid2 container spacing={1}>

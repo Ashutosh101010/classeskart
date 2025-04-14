@@ -34,7 +34,6 @@ const ProceedToCheckoutForm = ({ cartCourses, setProceedToCheckoutModal, setOpen
             }
         }
     };
-console.log('cartCourses', cartCourses);
 
     useEffect(() => {
         if (cartCourses?.length > 0) {

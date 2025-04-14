@@ -19,13 +19,13 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<DomainFilter />} />
-          <Route path="/explore-all" element={<ExploreSection />} />
+          <Route path="/:instituteSlug" element={<ExploreSection />} />
           <Route path="/cart-courses" element={<MultipleCourseCart />} />
           <Route path="*" element={<ComingSoonPage />} />
           <Route path="/test-series/:id" element={<TestSeries />} />
         </Routes>
       </Router>
-      <FloatingWhatsApp phoneNumber={'+91-8440930809'} accountName="ClassKart"
+      <FloatingWhatsApp phoneNumber={'+919049730883'} accountName="ClassKart"
         chatMessage="Hello! How can I help you?" className="classcart-whatsapp-avatar" />
     </React.Fragment>
   )

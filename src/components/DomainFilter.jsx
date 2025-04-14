@@ -79,8 +79,20 @@ export default function DomainFilter() {
         setSelectedLevelThree(e.target.value);
     };
 
+    const slugify = (text) => {
+        return text
+            .toString()
+            .toLowerCase()
+            .trim()
+            .replace(/\s+/g, '-')           // Replace spaces with -
+            .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+            .replace(/\-\-+/g, '-');        // Replace multiple - with single -
+    };
+
     const handleExploreNow = () => {
-        navigate('/explore-all', { state: { selectedLevelOne: selectedLevelOne, selectedLevelTwo: selectedLevelTwo, selectedLevelThree: selectedLevelThree } })
+        const selectedInstitute = levelThree.find(item => item.id === selectedLevelThree);
+        const instituteSlug = selectedInstitute ? slugify(selectedInstitute.name) : 'unknown';
+        navigate(`/${instituteSlug}`, { state: { selectedLevelOne: selectedLevelOne, selectedLevelTwo: selectedLevelTwo, selectedLevelThree: selectedLevelThree } })
     }
 
 
@@ -93,7 +105,7 @@ export default function DomainFilter() {
                             textTransform: "initial",
                             display: "flex", alignItems: "center", textAlign: "left", fontWeight: "bold", marginBottom: "15px", justifyContent: "left",
                         }}>Highly Rated Test Series Programs</h2> */}
-                        <img src="/logo2.png" style={{ width: "100%", height: "350px", marginBottom :"15px" }} />
+                        <img src="/Rectangle 2792.png" style={{ width: "100%", marginBottom: "15px" }} />
                     </div>
                     <Grid2 container>
                         <Grid2 item size={{ xs: 12, sm: 12, md: 12, lg: 12 }} sx={{ mb: 2 }}>
