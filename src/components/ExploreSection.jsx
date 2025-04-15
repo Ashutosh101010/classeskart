@@ -21,34 +21,31 @@ export default function ExploreSection() {
     const [courses, setCourses] = useState([]);
     const timeoutRef = useRef(null);
     const hasSubmitted = localStorage.getItem('formSubmitted') === 'true';
-  
-    console.log('courses', courses);
-    
-  
+
     useEffect(() => {
-      if (hasSubmitted) return;
-  
-      const handleUserActivity = () => {
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = setTimeout(() => {
-          setShowModal(true);
-        }, 3000); // 3 seconds
-      };
-  
-      // Attach activity listeners
-      window.addEventListener('mousemove', handleUserActivity);
-      window.addEventListener('keydown', handleUserActivity);
-      window.addEventListener('scroll', handleUserActivity);
-  
-      // Start inactivity timer initially
-      handleUserActivity();
-  
-      return () => {
-        window.removeEventListener('mousemove', handleUserActivity);
-        window.removeEventListener('keydown', handleUserActivity);
-        window.removeEventListener('scroll', handleUserActivity);
-        clearTimeout(timeoutRef.current);
-      };
+        if (hasSubmitted) return;
+
+        const handleUserActivity = () => {
+            clearTimeout(timeoutRef.current);
+            timeoutRef.current = setTimeout(() => {
+                setShowModal(true);
+            }, 3000); // 3 seconds
+        };
+
+        // Attach activity listeners
+        window.addEventListener('mousemove', handleUserActivity);
+        window.addEventListener('keydown', handleUserActivity);
+        window.addEventListener('scroll', handleUserActivity);
+
+        // Start inactivity timer initially
+        handleUserActivity();
+
+        return () => {
+            window.removeEventListener('mousemove', handleUserActivity);
+            window.removeEventListener('keydown', handleUserActivity);
+            window.removeEventListener('scroll', handleUserActivity);
+            clearTimeout(timeoutRef.current);
+        };
     }, [hasSubmitted]);
 
     useEffect(() => {

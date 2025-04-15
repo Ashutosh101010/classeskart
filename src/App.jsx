@@ -7,10 +7,10 @@ import {
 } from "react-router-dom";
 import { FloatingWhatsApp } from 'react-floating-whatsapp';
 import ComingSoonPage from './components/CommingSoon';
-import { TestSeries } from './components/TestSeries';
 import DomainFilter from './components/DomainFilter';
 import ExploreSection from './components/ExploreSection';
 import MultipleCourseCart from './components/AddedCourseCart';
+import { TestSeries } from './components/AmitVohraTestSeries';
 
 function App() {
 

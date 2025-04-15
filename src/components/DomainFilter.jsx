@@ -84,17 +84,24 @@ export default function DomainFilter() {
             .toString()
             .toLowerCase()
             .trim()
-            .replace(/\s+/g, '-')           // Replace spaces with -
-            .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-            .replace(/\-\-+/g, '-');        // Replace multiple - with single -
+            .replace(/\s+/g, '-')
+            .replace(/[^\w\-]+/g, '')
+            .replace(/\-\-+/g, '-');
     };
+
+
 
     const handleExploreNow = () => {
         const selectedInstitute = levelThree.find(item => item.id === selectedLevelThree);
         const instituteSlug = selectedInstitute ? slugify(selectedInstitute.name) : 'unknown';
-        navigate(`/${instituteSlug}`, { state: { selectedLevelOne: selectedLevelOne, selectedLevelTwo: selectedLevelTwo, selectedLevelThree: selectedLevelThree } })
-    }
+        if (selectedInstitute?.name === "CS Amit Vohra Classes") {
+            navigate(`/test-series/684`)
 
+        } else {
+            navigate(`/${instituteSlug}`, { state: { selectedLevelOne: selectedLevelOne, selectedLevelTwo: selectedLevelTwo, selectedLevelThree: selectedLevelThree } })
+        }
+
+    }
 
     return (
         <div className="domain-fliter" style={{ background: "#980808", padding: "20px" }}>
