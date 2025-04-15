@@ -2,7 +2,7 @@
 import { Box, Button, FormControl, FormControlLabel, FormLabel, Grid2, InputLabel, MenuItem, Radio, RadioGroup, Select, Typography } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import Network from "./Network";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Banners } from "./BannesSection";
 import { BASE_URL } from "./Endpoints";
 import instId from "./InstituteId";
@@ -16,6 +16,8 @@ export default function ExploreSection() {
     const firstFilter = location?.state?.selectedLevelOne;
     const secondFilter = location?.state?.selectedLevelTwo;
     const thirdFilter = location?.state?.selectedLevelThree;
+    const param = useParams();
+    const selectedDomain = Number(param?.instId);
     const [endpoints, setEndpoints] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [courses, setCourses] = useState([]);
@@ -74,8 +76,8 @@ export default function ExploreSection() {
     return (
         <div className="domain-fliter" style={{ padding: "20px" }}>
             {showModal && <ContactUs handleClose={() => setShowModal(false)} courses={courses} />}
-            <Banners endpointsUrl={endpoints} thirdFilter={thirdFilter} />
-            <ExploreCourseSection endpointsUrl={endpoints} firstFilter={firstFilter} secondFilter={secondFilter} thirdFilter={thirdFilter} setCourses={setCourses} />
+            <Banners endpointsUrl={endpoints} thirdFilter={selectedDomain} />
+            <ExploreCourseSection endpointsUrl={endpoints} firstFilter={firstFilter} secondFilter={secondFilter} thirdFilter={thirdFilter} setCourses={setCourses} selectedDomain={selectedDomain} />
         </div>
     )
 }

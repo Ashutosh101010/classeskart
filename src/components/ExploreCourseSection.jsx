@@ -6,9 +6,9 @@ import Network from "./Network";
 import SuggestedCourseDialog from "./CombinationModal";
 import parse from "html-react-parser";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-export const ExploreCourseSection = ({ endpointsUrl, firstFilter, secondFilter, thirdFilter, setCourses }) => {
+export const ExploreCourseSection = ({ endpointsUrl, firstFilter, secondFilter, thirdFilter, setCourses, selectedDomain }) => {
 
     const zoomInOut = keyframes`
       0% { transform: scale(1); }
@@ -36,6 +36,7 @@ export const ExploreCourseSection = ({ endpointsUrl, firstFilter, secondFilter, 
     const [finalAmounts, setFinalAmounts] = useState(0);
     const [finalAmountsss, setFinalAmountsss] = useState(0);
     const [domainList, setDomainList] = useState([]);
+    
 
     useEffect(() => {
 
@@ -87,7 +88,7 @@ export const ExploreCourseSection = ({ endpointsUrl, firstFilter, secondFilter, 
         setCourses(allCourse)
         setFilterCourseGroupWise(groupWise);
         setFilterCourseSubjectWise(subjectWise);
-    }, [selectedLevelOne, selectedLevelTwo, course, firstFilter, secondFilter, thirdFilter]);
+    }, [selectedLevelOne, selectedLevelTwo, course, selectedDomain]);
 
 
     const getDomainList = async () => {
@@ -99,7 +100,7 @@ export const ExploreCourseSection = ({ endpointsUrl, firstFilter, secondFilter, 
 
                 const findNodeById = (nodes) => {
                     for (const node of nodes) {
-                        if (node.id === thirdFilter) {
+                        if (node.id === selectedDomain) {
                             return node;
                         }
                         if (node.child?.length > 0) {
@@ -116,7 +117,7 @@ export const ExploreCourseSection = ({ endpointsUrl, firstFilter, secondFilter, 
                     const childArray = matchedLevel.child;
                     setLevelOne(childArray);
 
-                    let foundItem = childArray.find(item => item.id === thirdFilter);
+                    let foundItem = childArray.find(item => item.id === selectedDomain);
 
                     if (!foundItem && childArray.length > 0) {
                         foundItem = childArray[0];
@@ -157,10 +158,10 @@ export const ExploreCourseSection = ({ endpointsUrl, firstFilter, secondFilter, 
         return node.child.flatMap(child => getAllLeafIds(child));
     };
 
-    const filterCoursesByThirdFilter = (courseList, domainList, thirdFilter) => {
-        if (!thirdFilter || !Array.isArray(domainList) || domainList.length === 0) return [];
+    const filterCoursesByThirdFilter = (courseList, domainList, selectedDomain) => {
+        if (!selectedDomain || !Array.isArray(domainList) || domainList.length === 0) return [];
 
-        const matchedDomain = findDomainById(domainList, thirdFilter);
+        const matchedDomain = findDomainById(domainList, selectedDomain);
 
         if (!matchedDomain) return [];
 
@@ -182,8 +183,8 @@ export const ExploreCourseSection = ({ endpointsUrl, firstFilter, secondFilter, 
                 const caCourses = response?.courses?.filter(course =>
                     course.active === true
                 );
-                const filteredByThird = filterCoursesByThirdFilter(caCourses, domainList, thirdFilter);
-                setCourse(thirdFilter ? filteredByThird : caCourses);
+                const filteredByThird = filterCoursesByThirdFilter(caCourses, domainList, selectedDomain);
+                setCourse(selectedDomain ? filteredByThird : caCourses);
             };
         } catch (error) {
             console.log(error);

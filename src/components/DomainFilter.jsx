@@ -98,7 +98,7 @@ export default function DomainFilter() {
             navigate(`/test-series/684`)
 
         } else {
-            navigate(`/${instituteSlug}`, { state: { selectedLevelOne: selectedLevelOne, selectedLevelTwo: selectedLevelTwo, selectedLevelThree: selectedLevelThree } })
+            navigate(`/${selectedLevelThree}/${instituteSlug}`, { state: { selectedLevelOne: selectedLevelOne, selectedLevelTwo: selectedLevelTwo, selectedLevelThree: selectedLevelThree } })
         }
 
     }

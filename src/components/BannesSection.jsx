@@ -9,6 +9,7 @@ export const Banners = ({ endpointsUrl, thirdFilter }) => {
   const isMobile = useMediaQuery("(min-width:600px)");
   const [banners, setBanners] = useState([]);
 
+
   useEffect(() => {
     getBanners();
   }, []);
@@ -20,7 +21,7 @@ export const Banners = ({ endpointsUrl, thirdFilter }) => {
 
       // Filter banners based on domain id match with thirdFilter.id
       const filteredBanners = fetchedBanners.filter(banner =>
-        banner.domains?.some(domain => domain.id === thirdFilter)
+        banner.domains?.some(domain => domain.id === Number(thirdFilter))
       );
 
       if (filteredBanners.length > 0) {
