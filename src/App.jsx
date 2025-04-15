@@ -21,7 +21,7 @@ function App() {
           <Route path="/" element={<DomainFilter />} />
           <Route path="/:instituteSlug" element={<ExploreSection />} />
           <Route path="/cart-courses" element={<MultipleCourseCart />} />
-          <Route path="*" element={<ComingSoonPage />} />
+          {/* <Route path="*" element={<ComingSoonPage />} /> */}
           <Route path="/test-series/:id" element={<TestSeries />} />
         </Routes>
       </Router>
