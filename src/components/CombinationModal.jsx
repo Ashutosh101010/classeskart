@@ -37,6 +37,7 @@ const SuggestedCourseDialog = ({ addedSuggestCourse, handleClose, onFinalAmountU
     const finalPrice = price - discountedAmount;
     const taxLabAmount = (finalPrice * taxLab) / 100;
     const finalAmount = finalPrice + taxLabAmount;
+    console.log('watchTimeList', watchTimeList);
 
 
     useEffect(() => {
@@ -274,7 +275,11 @@ const SuggestedCourseDialog = ({ addedSuggestCourse, handleClose, onFinalAmountU
     const formatTimestamp = (timestamp) => {
         if (!timestamp) return "N/A";
 
-        return new Date(timestamp).toLocaleDateString();
+        return new Date(timestamp).toLocaleDateString('en-GB', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
     };
 
     const handleChangeAccess = (event) => { setSelectedAccess(event.target.value); }
@@ -325,6 +330,7 @@ const SuggestedCourseDialog = ({ addedSuggestCourse, handleClose, onFinalAmountU
 
         setFinalAmounts(totalAmount);
     };
+
 
     return (
         <form
@@ -494,7 +500,7 @@ const SuggestedCourseDialog = ({ addedSuggestCourse, handleClose, onFinalAmountU
                                     )
                                 }
                                 {
-                                    selectedValidityType && (
+                                    selectedValidityType && watchTimeList?.length > 1 ?
                                         <div
                                             style={{
                                                 width: '100%'
@@ -523,7 +529,36 @@ const SuggestedCourseDialog = ({ addedSuggestCourse, handleClose, onFinalAmountU
                                                 </Select>
                                             </FormControl>
                                         </div>
-                                    )
+                                        : watchTimeList?.length === 1 && watchTimeList[0] !== "Unlimited" && selectedValidityType ?
+                                            <div
+                                                style={{
+                                                    width: '100%'
+                                                }}
+                                            >
+                                                <FormControl fullWidth sx={{ mb: 2 }}>
+                                                    <InputLabel id="demo-simple-select-label">Watch Time</InputLabel>
+                                                    <Select
+                                                        label="Watch Time"
+                                                        // multiple
+                                                        fullWidth
+                                                        variant="outlined"
+                                                        value={selectedWatchTime}
+                                                        onChange={handleSelectWatchTime}
+                                                    // renderValue={(selected) => selected.join(", ")} // Directly show selected values
+                                                    // sx={{
+                                                    //     width: '100%',
+                                                    //     maxWidth: '430px'
+                                                    // }}
+                                                    >
+                                                        {watchTimeList?.map((watchTime) => {
+                                                            return <MenuItem key={watchTime} value={watchTime ? watchTime : "Unlimited"}>
+                                                                <ListItemText primary={watchTime !== "Unlimited" ? `${watchTime}x` : watchTime} />
+                                                            </MenuItem>
+                                                        })}
+                                                    </Select>
+                                                </FormControl>
+                                            </div>
+                                            : ""
                                 }
                             </Grid>
 
